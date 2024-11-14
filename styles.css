@@ -1,0 +1,153 @@
+/* General Reset */
+* {
+    box-sizing: border-box; /* Ensure padding and border are included in width/height */
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    font-size: 16px; /* Set base font size */
+}
+
+/* Header */
+header {
+    background-color: #007bff;
+    color: white;
+    text-align: center;
+    padding: 1.25rem; /* Padding in rem for consistent scaling */
+}
+
+/* Container (Ensures content is centered and responsive) */
+.container {
+    width: 80%;
+    margin: auto;
+    padding: 2rem; /* Padding in rem */
+    max-width: 1200px; /* Limit maximum container width to maintain readability */
+}
+
+/* Form Styling */
+form {
+    background-color: white;
+    padding: 1.25rem; /* Padding in rem */
+    border-radius: 0.5rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Input and Select (Full width, padding, and rounded corners) */
+input, select {
+    width: 100%;
+    padding: 0.625rem; /* Padding in rem */
+    margin: 1rem 0;
+    border-radius: 0.3125rem;
+    border: 1px solid #ccc;
+    font-size: 1rem; /* Font size in rem */
+}
+
+/* Button Styling */
+button {
+    background-color: #28a745;
+    color: white;
+    padding: 0.625rem 1.25rem;
+    border: none;
+    border-radius: 0.3125rem;
+    cursor: pointer;
+    font-size: 1rem; /* Font size in rem */
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+/* Table Styling */
+table {
+    width: 100%; /* Ensure table takes full width */
+    margin-top: 1.25rem;
+    border-collapse: collapse; /* Ensures clean borders without doubling */
+    table-layout: fixed; /* Ensures all columns have equal width */
+}
+
+/* Table and Cell Borders */
+table, th, td {
+    border: 1px solid #ddd;
+    padding: 0.75rem; /* Padding in rem */
+    text-align: center;
+}
+
+/* Table Header */
+th {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+}
+
+/* Table Rows */
+tr:nth-child(even) {
+    background-color: #f9f9f9; /* Light background for alternating rows */
+}
+
+tr:hover {
+    background-color: #f1f1f1; /* Highlight row on hover */
+}
+
+/* Input Fields within Table */
+input[type="number"] {
+    width: 80%;
+    margin: 0.5rem auto;
+    text-align: center;
+    border-radius: 0.3125rem;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+}
+
+input[type="number"]:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Set equal column widths for shift data (Hadir, Alpa, Sakit, Izin, CFV, CL, CT, OFF) */
+th, td {
+    width: 12.5%; /* Distribute columns evenly */
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+    .container {
+        width: 95%; /* Make container width smaller on mobile devices */
+    }
+
+    form {
+        padding: 1rem; /* Reduce padding on mobile */
+    }
+
+    input, select, button {
+        font-size: 0.9rem; /* Slightly smaller text on smaller screens */
+    }
+
+    table {
+        font-size: 0.9rem; /* Smaller font for the table */
+    }
+
+    /* Make table scrollable horizontally on small screens */
+    table {
+        overflow-x: auto;
+        display: block;
+    }
+}
+
+@media (max-width: 480px) {
+    header {
+        font-size: 1.2rem; /* Slightly smaller header on very small screens */
+    }
+
+    button {
+        font-size: 0.9rem; /* Smaller button text */
+        padding: 0.5rem 1rem; /* Smaller button size */
+    }
+
+    table {
+        font-size: 0.8rem; /* Even smaller table font */
+    }
+}
