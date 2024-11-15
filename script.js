@@ -3,6 +3,7 @@
     document.getElementById('attendanceForm').addEventListener('submit', function(event) {
         event.preventDefault(); // Prevent the form from submitting the traditional way
 
+        // Collect form data
         const formData = new FormData(event.target);
         const data = {
             inputDate: formData.get('inputDate'),
@@ -14,19 +15,19 @@
             shiftDetails: [],
         };
 
-        // Loop through each shift row and gather data
+        // Loop through the shift rows and gather data
         document.querySelectorAll('#shiftTable tbody tr').forEach(function(row) {
             const shiftType = row.cells[0].textContent;
             const shiftData = {
                 shiftType,
-                absen: row.querySelector('[name$="Absen"]').value,
-                tunda: row.querySelector('[name$="Tunda"]').value,
-                sakit: row.querySelector('[name$="Sakit"]').value,
-                izin: row.querySelector('[name$="Izin"]').value,
-                cfv: row.querySelector('[name$="CFV"]').value,
-                cl: row.querySelector('[name$="CL"]').value,
-                ct: row.querySelector('[name$="CT"]').value,
-                off: row.querySelector('[name$="OFF"]').value
+                absen: row.querySelector('[name$="Absen"]') ? row.querySelector('[name$="Absen"]').value : '',
+                tunda: row.querySelector('[name$="Tunda"]') ? row.querySelector('[name$="Tunda"]').value : '',
+                sakit: row.querySelector('[name$="Sakit"]') ? row.querySelector('[name$="Sakit"]').value : '',
+                izin: row.querySelector('[name$="Izin"]') ? row.querySelector('[name$="Izin"]').value : '',
+                cfv: row.querySelector('[name$="CFV"]') ? row.querySelector('[name$="CFV"]').value : '',
+                cl: row.querySelector('[name$="CL"]') ? row.querySelector('[name$="CL"]').value : '',
+                ct: row.querySelector('[name$="CT"]') ? row.querySelector('[name$="CT"]').value : '',
+                off: row.querySelector('[name$="OFF"]') ? row.querySelector('[name$="OFF"]').value : ''
             };
             data.shiftDetails.push(shiftData);
         });
@@ -34,7 +35,6 @@
         // Append gathered data to the table
         const tableBody = document.querySelector('#attendanceTable tbody');
         
-        // Loop through each shiftDetail and create a row for each
         const shiftStatusColumns = {
             "shiftRegulerHadir": "",
             "shiftRegulerAbsen": "",
