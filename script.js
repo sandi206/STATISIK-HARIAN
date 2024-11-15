@@ -33,38 +33,51 @@
 
         // Append gathered data to the table
         const tableBody = document.querySelector('#attendanceTable tbody');
-        data.shiftDetails.forEach(shift => {
-            // Add rows for each shift with respective status
-            const shiftCombinations = [
-                { type: `${shift.shiftType} & Hadir`, status: shift.absen === '' ? 'Hadir' : '' },
-                { type: `${shift.shiftType} & Absen`, status: shift.absen !== '' ? 'Absen' : '' },
-                { type: `${shift.shiftType} & Off`, status: shift.off !== '' ? 'Off' : '' },
-                { type: `${shift.shiftType} & Tunda`, status: shift.tunda !== '' ? 'Tunda' : '' },
-                { type: `${shift.shiftType} & Sakit`, status: shift.sakit !== '' ? 'Sakit' : '' },
-                { type: `${shift.shiftType} & Izin`, status: shift.izin !== '' ? 'Izin' : '' },
-                { type: `${shift.shiftType} & CFV`, status: shift.cfv !== '' ? 'CFV' : '' },
-                { type: `${shift.shiftType} & CL`, status: shift.cl !== '' ? 'CL' : '' },
-                { type: `${shift.shiftType} & CT`, status: shift.ct !== '' ? 'CT' : '' },
-            ];
+        
+        // Loop through each shiftDetail and create a row for each
+        const shiftStatusColumns = {
+            "shiftRegulerHadir": "",
+            "shiftRegulerAbsen": "",
+            "shiftRegulerOff": "",
+            "shiftTunda": "",
+            "shiftSakit": "",
+            "shiftIzin": "",
+            "shiftCFV": "",
+            "shiftCL": "",
+            "shiftCT": ""
+        };
 
-            // For each combination, add a row if there's a status
-            shiftCombinations.forEach(combination => {
-                if (combination.status !== '') {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${data.inputDate}</td>
-                        <td>${data.employeeId}</td>
-                        <td>${data.PT}</td>
-                        <td>${data.departemen}</td>
-                        <td>${data.division}</td>
-                        <td>${data.team}</td>
-                        <td>${combination.type}</td>
-                        <td>${combination.status}</td>
-                    `;
-                    tableBody.appendChild(row);
-                }
-            });
+        // Loop through each shift details to populate columns
+        data.shiftDetails.forEach(shift => {
+            if (shift.absen !== '') shiftStatusColumns.shiftRegulerAbsen = shift.absen;
+            if (shift.off !== '') shiftStatusColumns.shiftRegulerOff = shift.off;
+            if (shift.sakit !== '') shiftStatusColumns.shiftSakit = shift.sakit;
+            if (shift.izin !== '') shiftStatusColumns.shiftIzin = shift.izin;
+            if (shift.cfv !== '') shiftStatusColumns.shiftCFV = shift.cfv;
+            if (shift.cl !== '') shiftStatusColumns.shiftCL = shift.cl;
+            if (shift.ct !== '') shiftStatusColumns.shiftCT = shift.ct;
         });
+
+        // Create the row to append to the table
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${data.inputDate}</td>
+            <td>${data.employeeId}</td>
+            <td>${data.PT}</td>
+            <td>${data.departemen}</td>
+            <td>${data.division}</td>
+            <td>${data.team}</td>
+            <td>${shiftStatusColumns.shiftRegulerHadir}</td>
+            <td>${shiftStatusColumns.shiftRegulerAbsen}</td>
+            <td>${shiftStatusColumns.shiftRegulerOff}</td>
+            <td>${shiftStatusColumns.shiftTunda}</td>
+            <td>${shiftStatusColumns.shiftSakit}</td>
+            <td>${shiftStatusColumns.shiftIzin}</td>
+            <td>${shiftStatusColumns.shiftCFV}</td>
+            <td>${shiftStatusColumns.shiftCL}</td>
+            <td>${shiftStatusColumns.shiftCT}</td>
+        `;
+        tableBody.appendChild(row);
 
         // Optionally, reset the form after adding the row
         event.target.reset();
