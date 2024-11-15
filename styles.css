@@ -55,6 +55,7 @@ button {
     cursor: pointer;
     font-size: 1rem; /* Font size in rem */
     transition: background-color 0.3s ease;
+    margin-top: 1rem; /* Added margin-top for spacing */
 }
 
 button:hover {
@@ -67,6 +68,8 @@ table {
     margin-top: 1.25rem;
     border-collapse: collapse; /* Ensures clean borders without doubling */
     table-layout: fixed; /* Ensures all columns have equal width */
+    overflow-x: auto; /* Added overflow-x for scroll */
+    display: block;
 }
 
 /* Table and Cell Borders */
@@ -94,7 +97,7 @@ tr:hover {
 
 /* Input Fields within Table */
 input[type="number"] {
-    width: 80%;
+    width: 100%; /* Make number inputs take full width */
     margin: 0.5rem auto;
     text-align: center;
     border-radius: 0.3125rem;
