@@ -1,8 +1,7 @@
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
-
 <script>
+    // Function to handle form submission and update the attendance table
     document.getElementById('attendanceForm').addEventListener('submit', function(event) {
-        event.preventDefault(); // Prevent form from submitting traditionally
+        event.preventDefault(); // Prevent the form from submitting the traditional way
 
         const formData = new FormData(event.target);
         const data = {
@@ -15,13 +14,13 @@
             shiftDetails: [],
         };
 
-        // Collect shift data
+        // Loop through the shift rows and gather data
         document.querySelectorAll('#shiftTable tbody tr').forEach(function(row) {
-            const shiftType = row.cells[0].textContent; // The first cell contains the shift type
+            const shiftType = row.cells[0].textContent;
             const shiftData = {
                 shiftType,
-                absen: row.querySelector('[name$="Hadir"]').value,
-                tunda: row.querySelector('[name$="Tunda"]').value,
+                absen: row.querySelector('[name$="Absen"]').value, // Updated for Absen
+                tunda: row.querySelector('[name$="Tunda"]').value, // Added Tunda
                 sakit: row.querySelector('[name$="Sakit"]').value,
                 izin: row.querySelector('[name$="Izin"]').value,
                 cfv: row.querySelector('[name$="CFV"]').value,
@@ -32,9 +31,10 @@
             data.shiftDetails.push(shiftData);
         });
 
-        // Append the collected data to the table
+        // Append gathered data to the table
         const tableBody = document.querySelector('#attendanceTable tbody');
         const row = document.createElement('tr');
+        
         row.innerHTML = `
             <td>${data.inputDate}</td>
             <td>${data.employeeId}</td>
@@ -50,30 +50,28 @@
             <td>${data.shiftDetails.map(shift => shift.ct).join(', ')}</td>
             <td>${data.shiftDetails.map(shift => shift.off).join(', ')}</td>
         `;
+        
         tableBody.appendChild(row);
+    });
 
-        // Show the download button
-        document.getElementById('downloadButton').style.display = 'inline-block';
+    // Function to export data to Excel
+    document.getElementById('downloadButton').addEventListener('click', function() {
+        const table = document.getElementById('attendanceTable');
+        const workbook = XLSX.utils.table_to_book(table, {sheet: "Data Kehadiran"});
+        const wbout = XLSX.write(workbook, {bookType: 'xlsx', type: 'binary'});
 
-        // Function to generate Excel file when the download button is clicked
-        document.getElementById('downloadButton').addEventListener('click', function() {
-            const table = document.getElementById('attendanceTable');
-            const workbook = XLSX.utils.table_to_book(table, { sheet: "Data Kehadiran" });
-            const wbout = XLSX.write(workbook, { bookType: 'xlsx', type: 'binary' });
+        // Save the Excel file
+        function s2ab(s) { 
+            const buf = new ArrayBuffer(s.length); 
+            const view = new Uint8Array(buf); 
+            for (let i = 0; i < s.length; i++) view[i] = s.charCodeAt(i) & 0xFF; 
+            return buf; 
+        }
 
-            function s2ab(s) {
-                const buf = new ArrayBuffer(s.length);
-                const view = new Uint8Array(buf);
-                for (let i = 0; i < s.length; i++) view[i] = s.charCodeAt(i) & 0xFF;
-                return buf;
-            }
-
-            // Create a Blob for the Excel file
-            const blob = new Blob([s2ab(wbout)], { type: "application/octet-stream" });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = 'data_kehadiran.xlsx'; // Specify the name of the Excel file
-            link.click(); // Trigger the download
-        });
+        const blob = new Blob([s2ab(wbout)], {type: "application/octet-stream"});
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'data_kehadiran.xlsx';
+        link.click();
     });
 </script>
