@@ -1,98 +1,77 @@
-// Store the data in an array
-const data = [];
+<script>
+        // Function to handle form submission and create Excel file
+        document.getElementById('attendanceForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent form from submitting traditionally
 
-// Handle form submission
-document.getElementById('attendanceForm').addEventListener('submit', function(event) {
-    event.preventDefault();
+            const formData = new FormData(event.target);
+            const data = {
+                inputDate: formData.get('inputDate'),
+                employeeId: formData.get('employeeId'),
+                PT: formData.get('PT'),
+                departemen: formData.get('Departemen'),
+                division: formData.get('division'),
+                team: formData.get('team'),
+                shiftDetails: [],
+            };
 
-    const form = event.target;
-    const newData = {
-        employeeId: form.employeeId.value,
-        pt: form.pt.value,
-        department: form.department.value,
-        division: form.division.value,
-        team: form.team.value,
-        shiftType: form.shiftType.value,
-        attendance: form.attendance.value,
-        absence: form.absence.value
-    };
+            // Collect shift data
+            document.querySelectorAll('#shiftTable tbody tr').forEach(function(row) {
+                const shiftType = row.cells[0].textContent;
+                const shiftData = {
+                    shiftType,
+                    absen: row.querySelector('[name$="Hadir"]').value,
+                    tunda: row.querySelector('[name$="Tunda"]').value,
+                    sakit: row.querySelector('[name$="Sakit"]').value,
+                    izin: row.querySelector('[name$="Izin"]').value,
+                    cfv: row.querySelector('[name$="CFV"]').value,
+                    cl: row.querySelector('[name$="CL"]').value,
+                    ct: row.querySelector('[name$="CT"]').value,
+                    off: row.querySelector('[name$="OFF"]').value
+                };
+                data.shiftDetails.push(shiftData);
+            });
 
-    // Add the new data to the array
-    data.push(newData);
-    form.reset();
-    renderTable();
-});
+            // Append to the table (you can also add more formatting as needed)
+            const tableBody = document.querySelector('#attendanceTable tbody');
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${data.inputDate}</td>
+                <td>${data.employeeId}</td>
+                <td>${data.PT}</td>
+                <td>${data.departemen}</td>
+                <td>${data.division}</td>
+                <td>${data.team}</td>
+                <td>${data.shiftDetails.map(shift => shift.shiftType).join(', ')}</td>
+                <td>${data.shiftDetails.map(shift => shift.absen).join(', ')}</td>
+                <td>${data.shiftDetails.map(shift => shift.tunda).join(', ')}</td>
+                <td>${data.shiftDetails.map(shift => shift.cfv).join(', ')}</td>
+                <td>${data.shiftDetails.map(shift => shift.cl).join(', ')}</td>
+                <td>${data.shiftDetails.map(shift => shift.ct).join(', ')}</td>
+                <td>${data.shiftDetails.map(shift => shift.off).join(', ')}</td>
+            `;
+            tableBody.appendChild(row);
 
-// Render the table
-function renderTable() {
-    const tableBody = document.querySelector('#attendanceTable tbody');
-    tableBody.innerHTML = ''; // Clear previous table rows
+            // Show the download button
+            document.getElementById('downloadButton').style.display = 'inline-block';
 
-    data.forEach(row => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-            <td>${row.employeeId}</td>
-            <td>${row.pt}</td>
-            <td>${row.department}</td>
-            <td>${row.division}</td>
-            <td>${row.team}</td>
-            <td>${row.shiftType}</td>
-            <td>${row.attendance}</td>
-            <td>${row.absence}</td>
-        `;
-        tableBody.appendChild(tr);
-    });
-}
+            // Function to generate Excel file
+            document.getElementById('downloadButton').addEventListener('click', function() {
+                const table = document.getElementById('attendanceTable');
+                const workbook = XLSX.utils.table_to_book(table, { sheet: "Data Kehadiran" });
+                const wbout = XLSX.write(workbook, { bookType: 'xlsx', type: 'binary' });
 
-// Initialize Google API client
-function handleClientLoad() {
-    gapi.load('client:auth2', initClient);
-}
+                function s2ab(s) {
+                    const buf = new ArrayBuffer(s.length);
+                    const view = new Uint8Array(buf);
+                    for (let i = 0; i < s.length; i++) view[i] = s.charCodeAt(i) & 0xFF;
+                    return buf;
+                }
 
-function initClient() {
-    gapi.auth2.init({
-        client_id: 'YOUR_CLIENT_ID.apps.googleusercontent.com', // Replace with your Google Client ID
-        scope: 'https://www.googleapis.com/auth/drive.file',
-    }).then(function () {
-        if (gapi.auth2.getAuthInstance().isSignedIn.get()) {
-            console.log("User already signed in");
-        } else {
-            gapi.auth2.getAuthInstance().signIn();
-        }
-    });
-}
-
-// Upload file to Google Drive
-function uploadFileToDrive(fileContent, fileName) {
-    var fileMetadata = {
-        'name': fileName,
-        'mimeType': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-    };
-
-    var media = {
-        mimeType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-        body: fileContent
-    };
-
-    var request = gapi.client.drive.files.create({
-        resource: fileMetadata,
-        media: media,
-        fields: 'id'
-    });
-
-    request.execute(function(response) {
-        console.log('File uploaded with ID: ' + response.id);
-    });
-}
-
-// Download the data as an Excel file
-document.getElementById('downloadButton').addEventListener('click', function() {
-    const wb = XLSX.utils.book_new();
-    const ws = XLSX.utils.json_to_sheet(data);
-    XLSX.utils.book_append_sheet(wb, ws, 'Data Kehadiran');
-
-    const fileContent = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' });
-
-    // Upload the file to Google Drive
-    uploadFileToDrive(fileContent, 'data_kehadiran.xlsx');
-});
+                const blob = new Blob([s2ab(wbout)], { type: "application/octet-stream" });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = 'data_kehadiran.xlsx';
+                link.click();
+            });
+        });
+    </script>
