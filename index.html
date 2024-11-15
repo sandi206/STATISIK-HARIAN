@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>STATISTIK HARIAN</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script> <!-- Added xlsx library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
 </head>
 <body>
     <header>
@@ -22,6 +22,7 @@
             <label for="employeeId">ID Karyawan:</label>
             <input type="text" id="employeeId" name="employeeId" placeholder="Masukkan ID Karyawan" required>
 
+            <!-- PT Selection -->
             <label for="PT">PT</label>
             <select id="division" name="PT">
                 <option value="PT A">CSP</option>
@@ -29,7 +30,8 @@
                 <option value="PT C">SMI</option>
             </select>
 
-            <label for="department">Departemen</label>
+            <!-- Departemen Selection -->
+            <label for="departemen">Departemen</label>
             <select id="departemen" name="Departemen">
                 <option value="dept A">PERAWATAN 1</option>
                 <option value="dept B">PERAWATAN 2</option>
@@ -37,6 +39,7 @@
                 <option value="dept D">Lainnya</option>
             </select>
 
+            <!-- Divisi Selection -->
             <label for="employeeDivision">Divisi:</label>
             <select id="employeeDivision" name="division">
                 <option value="Divisi A">DESULFURISASI</option>
@@ -45,16 +48,16 @@
                 <option value="Divisi D">Lainnya</option>
             </select>
 
+            <!-- Nama Regu -->
             <label for="team">Nama Regu:</label>
             <input type="text" id="team" name="team" placeholder="Masukkan Nama Regu dan Divisi jika tidak ada dalam list" required>
 
-            <!-- Tabel untuk Jenis Shift dan Absensi -->
             <h3>Jenis Shift dan Absensi</h3>
             <table id="shiftTable">
                 <thead>
                     <tr>
                         <th>Jenis Shift</th>
-                        <th>Hadir</th> 
+                        <th>Hadir</th>
                         <th>Absen Tunda</th>
                         <th>Sakit</th>
                         <th>Izin</th>
@@ -65,10 +68,11 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <!-- Example shift rows (you can add more as per your needs) -->
                     <tr>
                         <td>Shift Reguler</td>
-                        <td><input type="number" name="shiftRegulerAbsen" min="0" step="1"></td> <!-- Renamed input for Absen -->
-                        <td><input type="number" name="shiftRegulerTunda" min="0" step="1"></td> <!-- Added Tunda input -->
+                        <td><input type="number" name="shiftRegulerHadir" min="0" step="1"></td>
+                        <td><input type="number" name="shiftRegulerTunda" min="0" step="1"></td>
                         <td><input type="number" name="shiftRegulerSakit" min="0" step="1"></td>
                         <td><input type="number" name="shiftRegulerIzin" min="0" step="1"></td>
                         <td><input type="number" name="shiftRegulerCFV" min="0" step="1"></td>
@@ -76,54 +80,11 @@
                         <td><input type="number" name="shiftRegulerCT" min="0" step="1"></td>
                         <td><input type="number" name="shiftRegulerOFF" min="0" step="1"></td>
                     </tr>
-                    <tr>
-                        <td>3 Shift 4 Regu</td>
-                        <td><input type="number" name="shift34Absen" min="0" step="1"></td>
-                        <td><input type="number" name="shift34Tunda" min="0" step="1"></td>
-                        <td><input type="number" name="shift34Sakit" min="0" step="1"></td>
-                        <td><input type="number" name="shift34Izin" min="0" step="1"></td>
-                        <td><input type="number" name="shift34CFV" min="0" step="1"></td>
-                        <td><input type="number" name="shift34CL" min="0" step="1"></td>
-                        <td><input type="number" name="shift34CT" min="0" step="1"></td>
-                        <td><input type="number" name="shift34OFF" min="0" step="1"></td>
-                    </tr>
-                    <tr>
-                        <td>3 Shift 3 Regu</td>
-                        <td><input type="number" name="shift33Absen" min="0" step="1"></td>
-                        <td><input type="number" name="shift33Tunda" min="0" step="1"></td>
-                        <td><input type="number" name="shift33Sakit" min="0" step="1"></td>
-                        <td><input type="number" name="shift33Izin" min="0" step="1"></td>
-                        <td><input type="number" name="shift33CFV" min="0" step="1"></td>
-                        <td><input type="number" name="shift33CL" min="0" step="1"></td>
-                        <td><input type="number" name="shift33CT" min="0" step="1"></td>
-                        <td><input type="number" name="shift33OFF" min="0" step="1"></td>
-                    </tr>
-                    <tr>
-                        <td>2 Shift 3 Regu</td>
-                        <td><input type="number" name="shift23Absen" min="0" step="1"></td>
-                        <td><input type="number" name="shift23Tunda" min="0" step="1"></td>
-                        <td><input type="number" name="shift23Sakit" min="0" step="1"></td>
-                        <td><input type="number" name="shift23Izin" min="0" step="1"></td>
-                        <td><input type="number" name="shift23CFV" min="0" step="1"></td>
-                        <td><input type="number" name="shift23CL" min="0" step="1"></td>
-                        <td><input type="number" name="shift23CT" min="0" step="1"></td>
-                        <td><input type="number" name="shift23OFF" min="0" step="1"></td>
-                    </tr>
-                    <tr>
-                        <td>12 Jam Roster</td>
-                        <td><input type="number" name="shift12Absen" min="0" step="1"></td>
-                        <td><input type="number" name="shift12Tunda" min="0" step="1"></td>
-                        <td><input type="number" name="shift12Sakit" min="0" step="1"></td>
-                        <td><input type="number" name="shift12Izin" min="0" step="1"></td>
-                        <td><input type="number" name="shift12CFV" min="0" step="1"></td>
-                        <td><input type="number" name="shift12CL" min="0" step="1"></td>
-                        <td><input type="number" name="shift12CT" min="0" step="1"></td>
-                        <td><input type="number" name="shift12OFF" min="0" step="1"></td>
-                    </tr>
+                    <!-- You can add more rows for other shifts -->
                 </tbody>
             </table>
 
-            <button type="submit">Kirim Data</button>
+            <button type="submit" id="submitDataButton">Kirim Data</button>
         </form>
 
         <h2>Data Kehadiran</h2>
@@ -137,8 +98,8 @@
                     <th>Divisi</th>
                     <th>Nama Regu</th>
                     <th>Jenis Shift</th>
-                    <th>Jumlah Absen</th> <!-- Updated to "Absen" -->
-                    <th>Jumlah Tunda</th> <!-- Added Tunda -->
+                    <th>Jumlah Absen</th>
+                    <th>Jumlah Tunda</th>
                     <th>CFV</th>
                     <th>CL</th>
                     <th>CT</th>
@@ -148,14 +109,14 @@
             <tbody></tbody>
         </table>
 
-        <button id="downloadButton">Download Data Excel</button>
+        <button id="downloadButton" style="display: none;">Download Data Excel</button>
     </div>
 
     <script>
-        // Function to handle form submission
+        // Function to handle form submission and create Excel file
         document.getElementById('attendanceForm').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent the form from submitting the traditional way
-            
+            event.preventDefault(); // Prevent form from submitting traditionally
+
             const formData = new FormData(event.target);
             const data = {
                 inputDate: formData.get('inputDate'),
@@ -167,13 +128,13 @@
                 shiftDetails: [],
             };
 
-            // Loop through the shift rows and gather data
+            // Collect shift data
             document.querySelectorAll('#shiftTable tbody tr').forEach(function(row) {
                 const shiftType = row.cells[0].textContent;
                 const shiftData = {
                     shiftType,
-                    absen: row.querySelector('[name$="Absen"]').value, // Updated for Absen
-                    tunda: row.querySelector('[name$="Tunda"]').value, // Added Tunda
+                    absen: row.querySelector('[name$="Hadir"]').value,
+                    tunda: row.querySelector('[name$="Tunda"]').value,
                     sakit: row.querySelector('[name$="Sakit"]').value,
                     izin: row.querySelector('[name$="Izin"]').value,
                     cfv: row.querySelector('[name$="CFV"]').value,
@@ -184,29 +145,48 @@
                 data.shiftDetails.push(shiftData);
             });
 
-            // Log the gathered data (you would usually send this data to a server)
-            console.log(data);
-        });
+            // Append to the table (you can also add more formatting as needed)
+            const tableBody = document.querySelector('#attendanceTable tbody');
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${data.inputDate}</td>
+                <td>${data.employeeId}</td>
+                <td>${data.PT}</td>
+                <td>${data.departemen}</td>
+                <td>${data.division}</td>
+                <td>${data.team}</td>
+                <td>${data.shiftDetails.map(shift => shift.shiftType).join(', ')}</td>
+                <td>${data.shiftDetails.map(shift => shift.absen).join(', ')}</td>
+                <td>${data.shiftDetails.map(shift => shift.tunda).join(', ')}</td>
+                <td>${data.shiftDetails.map(shift => shift.cfv).join(', ')}</td>
+                <td>${data.shiftDetails.map(shift => shift.cl).join(', ')}</td>
+                <td>${data.shiftDetails.map(shift => shift.ct).join(', ')}</td>
+                <td>${data.shiftDetails.map(shift => shift.off).join(', ')}</td>
+            `;
+            tableBody.appendChild(row);
 
-        // Function to export data to Excel
-        document.getElementById('downloadButton').addEventListener('click', function() {
-            const table = document.getElementById('attendanceTable');
-            const workbook = XLSX.utils.table_to_book(table, {sheet: "Data Kehadiran"});
-            const wbout = XLSX.write(workbook, {bookType: 'xlsx', type: 'binary'});
-            
-            // Save the Excel file
-            function s2ab(s) { 
-                const buf = new ArrayBuffer(s.length); 
-                const view = new Uint8Array(buf); 
-                for (let i = 0; i < s.length; i++) view[i] = s.charCodeAt(i) & 0xFF; 
-                return buf; 
-            }
+            // Show the download button
+            document.getElementById('downloadButton').style.display = 'inline-block';
 
-            const blob = new Blob([s2ab(wbout)], {type: "application/octet-stream"});
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = 'data_kehadiran.xlsx';
-            link.click();
+            // Function to generate Excel file
+            document.getElementById('downloadButton').addEventListener('click', function() {
+                const table = document.getElementById('attendanceTable');
+                const workbook = XLSX.utils.table_to_book(table, { sheet: "Data Kehadiran" });
+                const wbout = XLSX.write(workbook, { bookType: 'xlsx', type: 'binary' });
+
+                function s2ab(s) {
+                    const buf = new ArrayBuffer(s.length);
+                    const view = new Uint8Array(buf);
+                    for (let i = 0; i < s.length; i++) view[i] = s.charCodeAt(i) & 0xFF;
+                    return buf;
+                }
+
+                const blob = new Blob([s2ab(wbout)], { type: "application/octet-stream" });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = 'data_kehadiran.xlsx';
+                link.click();
+            });
         });
     </script>
 </body>
