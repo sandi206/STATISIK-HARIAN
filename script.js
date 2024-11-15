@@ -14,13 +14,13 @@
             shiftDetails: [],
         };
 
-        // Loop through the shift rows and gather data
+        // Loop through each shift row and gather data
         document.querySelectorAll('#shiftTable tbody tr').forEach(function(row) {
             const shiftType = row.cells[0].textContent;
             const shiftData = {
                 shiftType,
-                absen: row.querySelector('[name$="Absen"]').value, // Updated for Absen
-                tunda: row.querySelector('[name$="Tunda"]').value, // Added Tunda
+                absen: row.querySelector('[name$="Absen"]').value,
+                tunda: row.querySelector('[name$="Tunda"]').value,
                 sakit: row.querySelector('[name$="Sakit"]').value,
                 izin: row.querySelector('[name$="Izin"]').value,
                 cfv: row.querySelector('[name$="CFV"]').value,
@@ -33,32 +33,50 @@
 
         // Append gathered data to the table
         const tableBody = document.querySelector('#attendanceTable tbody');
-        const row = document.createElement('tr');
-        
-        row.innerHTML = `
-            <td>${data.inputDate}</td>
-            <td>${data.employeeId}</td>
-            <td>${data.PT}</td>
-            <td>${data.departemen}</td>
-            <td>${data.division}</td>
-            <td>${data.team}</td>
-            <td>${data.shiftDetails.map(shift => shift.shiftType).join(', ')}</td>
-            <td>${data.shiftDetails.map(shift => shift.absen).join(', ')}</td>
-            <td>${data.shiftDetails.map(shift => shift.tunda).join(', ')}</td>
-            <td>${data.shiftDetails.map(shift => shift.cfv).join(', ')}</td>
-            <td>${data.shiftDetails.map(shift => shift.cl).join(', ')}</td>
-            <td>${data.shiftDetails.map(shift => shift.ct).join(', ')}</td>
-            <td>${data.shiftDetails.map(shift => shift.off).join(', ')}</td>
-        `;
-        
-        tableBody.appendChild(row);
+        data.shiftDetails.forEach(shift => {
+            // Add rows for each shift with respective status
+            const shiftCombinations = [
+                { type: `${shift.shiftType} & Hadir`, status: shift.absen === '' ? 'Hadir' : '' },
+                { type: `${shift.shiftType} & Absen`, status: shift.absen !== '' ? 'Absen' : '' },
+                { type: `${shift.shiftType} & Off`, status: shift.off !== '' ? 'Off' : '' },
+                { type: `${shift.shiftType} & Tunda`, status: shift.tunda !== '' ? 'Tunda' : '' },
+                { type: `${shift.shiftType} & Sakit`, status: shift.sakit !== '' ? 'Sakit' : '' },
+                { type: `${shift.shiftType} & Izin`, status: shift.izin !== '' ? 'Izin' : '' },
+                { type: `${shift.shiftType} & CFV`, status: shift.cfv !== '' ? 'CFV' : '' },
+                { type: `${shift.shiftType} & CL`, status: shift.cl !== '' ? 'CL' : '' },
+                { type: `${shift.shiftType} & CT`, status: shift.ct !== '' ? 'CT' : '' },
+            ];
+
+            // For each combination, add a row if there's a status
+            shiftCombinations.forEach(combination => {
+                if (combination.status !== '') {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${data.inputDate}</td>
+                        <td>${data.employeeId}</td>
+                        <td>${data.PT}</td>
+                        <td>${data.departemen}</td>
+                        <td>${data.division}</td>
+                        <td>${data.team}</td>
+                        <td>${combination.type}</td>
+                        <td>${combination.status}</td>
+                    `;
+                    tableBody.appendChild(row);
+                }
+            });
+        });
+
+        // Optionally, reset the form after adding the row
+        event.target.reset();
     });
 
-    // Function to export data to Excel
+    // Function to export the attendance table data to Excel
     document.getElementById('downloadButton').addEventListener('click', function() {
         const table = document.getElementById('attendanceTable');
-        const workbook = XLSX.utils.table_to_book(table, {sheet: "Data Kehadiran"});
-        const wbout = XLSX.write(workbook, {bookType: 'xlsx', type: 'binary'});
+        
+        // Convert the HTML table to an Excel workbook
+        const workbook = XLSX.utils.table_to_book(table, { sheet: "Data Kehadiran" });
+        const wbout = XLSX.write(workbook, { bookType: 'xlsx', type: 'binary' });
 
         // Save the Excel file
         function s2ab(s) { 
@@ -68,10 +86,10 @@
             return buf; 
         }
 
-        const blob = new Blob([s2ab(wbout)], {type: "application/octet-stream"});
+        const blob = new Blob([s2ab(wbout)], { type: "application/octet-stream" });
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
-        link.download = 'data_kehadiran.xlsx';
+        link.download = 'data_kehadiran.xlsx'; // Specify the filename for the Excel file
         link.click();
     });
 </script>
