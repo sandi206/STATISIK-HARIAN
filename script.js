@@ -1,81 +1,54 @@
-// Function to handle form submission and update the attendance table
-document.getElementById('attendanceForm').addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevent the form from submitting the traditional way
+    <script>
+        // Menangani pengisian form
+        document.getElementById('attendanceForm').addEventListener('submit', function(e) {
+            e.preventDefault();  // Mencegah form submit secara default
 
-    // Collect form data
-    const formData = new FormData(event.target);
-    const data = {
-        inputDate: formData.get('inputDate'),
-        employeeId: formData.get('employeeId'),
-        PT: formData.get('PT'),
-        departemen: formData.get('Departemen'),
-        division: formData.get('division'),
-        team: formData.get('team'),
-        shiftDetails: [],
-    };
+            // Ambil data dari form
+            const formData = new FormData(this);
+            const rowData = {
+                date: formData.get('inputDate'),
+                employeeId: formData.get('employeeId'),
+                pt: formData.get('PT'),
+                department: formData.get('Departemen'),
+                division: formData.get('division'),
+                team: formData.get('team'),
+                shiftData: {
+                    shiftRegulerAbsen: formData.get('shiftRegulerAbsen'),
+                    shiftRegulerTunda: formData.get('shiftRegulerTunda'),
+                    shiftRegulerSakit: formData.get('shiftRegulerSakit'),
+                    shiftRegulerIzin: formData.get('shiftRegulerIzin'),
+                    shiftRegulerCFV: formData.get('shiftRegulerCFV'),
+                    shiftRegulerCL: formData.get('shiftRegulerCL'),
+                    shiftRegulerCT: formData.get('shiftRegulerCT'),
+                    shiftRegulerOFF: formData.get('shiftRegulerOFF'),
+                }
+            };
 
-    // Loop through each shift row and collect shift details
-    document.querySelectorAll('#shiftTable tbody tr').forEach(function(row) {
-        const shiftType = row.cells[0].textContent;
-        const shiftData = {
-            shiftType,
-            absen: row.querySelector('[name$="Absen"]').value,
-            tunda: row.querySelector('[name$="Tunda"]').value,
-            sakit: row.querySelector('[name$="Sakit"]').value,
-            izin: row.querySelector('[name$="Izin"]').value,
-            cfv: row.querySelector('[name$="CFV"]').value,
-            cl: row.querySelector('[name$="CL"]').value,
-            ct: row.querySelector('[name$="CT"]').value,
-            off: row.querySelector('[name$="OFF"]').value
-        };
-        data.shiftDetails.push(shiftData);
-    });
+            // Tambahkan data ke dalam tabel
+            const table = document.querySelector('#attendanceTable tbody');
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${rowData.date}</td>
+                <td>${rowData.employeeId}</td>
+                <td>${rowData.pt}</td>
+                <td>${rowData.department}</td>
+                <td>${rowData.division}</td>
+                <td>${rowData.team}</td>
+                <td>Shift Reguler</td>
+                <td>${rowData.shiftData.shiftRegulerAbsen}</td>
+                <td>${rowData.shiftData.shiftRegulerTunda}</td>
+                <td>${rowData.shiftData.shiftRegulerCFV}</td>
+                <td>${rowData.shiftData.shiftRegulerCL}</td>
+                <td>${rowData.shiftData.shiftRegulerCT}</td>
+                <td>${rowData.shiftData.shiftRegulerOFF}</td>
+            `;
+            table.appendChild(row);
+        });
 
-    // Append gathered data to the attendance table
-    const tableBody = document.querySelector('#attendanceTable tbody');
-    const row = document.createElement('tr');
-    
-    row.innerHTML = `
-        <td>${data.inputDate}</td>
-        <td>${data.employeeId}</td>
-        <td>${data.PT}</td>
-        <td>${data.departemen}</td>
-        <td>${data.division}</td>
-        <td>${data.team}</td>
-        <td>${data.shiftDetails.map(shift => shift.shiftType).join(', ')}</td>
-        <td>${data.shiftDetails.map(shift => shift.absen).join(', ')}</td>
-        <td>${data.shiftDetails.map(shift => shift.tunda).join(', ')}</td>
-        <td>${data.shiftDetails.map(shift => shift.cfv).join(', ')}</td>
-        <td>${data.shiftDetails.map(shift => shift.cl).join(', ')}</td>
-        <td>${data.shiftDetails.map(shift => shift.ct).join(', ')}</td>
-        <td>${data.shiftDetails.map(shift => shift.off).join(', ')}</td>
-    `;
-    
-    tableBody.appendChild(row);
-
-    // Optionally, reset the form after adding the row
-    event.target.reset();
-});
-
-// Function to export the attendance table data to Excel
-document.getElementById('downloadButton').addEventListener('click', function() {
-    const table = document.getElementById('attendanceTable');
-    
-    // Convert the HTML table to an Excel workbook
-    const workbook = XLSX.utils.table_to_book(table, { sheet: "Data Kehadiran" });
-    const wbout = XLSX.write(workbook, { bookType: 'xlsx', type: 'binary' });
-
-    // Save the Excel file
-    function s2ab(s) { 
-        const buf = new ArrayBuffer(s.length); 
-        const view = new Uint8Array(buf); 
-        for (let i = 0; i < s.length; i++) view[i] = s.charCodeAt(i) & 0xFF; 
-        return buf; 
-    }
-
-    const blob = new Blob([s2ab(wbout)], { type: "application/octet-stream" });
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = 'data_kehadiran.xlsx'; // Specify the filename for the Excel file
-    link.click();
-});
+        // Menangani download Excel
+        document.getElementById('downloadButton').addEventListener('click', function() {
+            const table = document.getElementById('attendanceTable');
+            const wb = XLSX.utils.table_to_book(table, {sheet: "Attendance"});
+            XLSX.writeFile(wb, "attendance_data.xlsx");
+        });
+    </script>
