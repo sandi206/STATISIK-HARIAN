@@ -110,9 +110,22 @@ input[type="number"]:focus {
     outline: none;
 }
 
-/* Set column widths for each shift data column */
+/* Set custom column widths for Tanggal, ID, Departemen */
+th:nth-child(1), td:nth-child(1) { /* Tanggal Penginputan */
+    width: 20%; /* Make Tanggal column wider */
+}
+
+th:nth-child(2), td:nth-child(2) { /* ID Karyawan */
+    width: 15%; /* Make ID column wider */
+}
+
+th:nth-child(4), td:nth-child(4) { /* Departemen */
+    width: 20%; /* Make Departemen column wider */
+}
+
+/* Set column widths for the rest of the columns */
 th, td {
-    width: 12.5%; /* Distribute columns evenly */
+    width: 10%; /* Default width for the remaining columns */
 }
 
 /* Responsive Design for Smaller Screens */
