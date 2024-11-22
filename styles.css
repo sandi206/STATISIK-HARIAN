@@ -1,6 +1,6 @@
 /* General Reset */
 * {
-    box-sizing: border-box; /* Ensure padding and border are included in width/height */
+    box-sizing: border-box;
 }
 
 /* Body Styling */
@@ -20,30 +20,34 @@ header {
     padding: 1.25rem;
 }
 
-/* Container (Ensures content is centered and responsive) */
+/* Container Styling */
 .container {
-    width: 80%;
+    width: 90%;
     margin: auto;
     padding: 2rem;
     max-width: 1200px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Form Styling */
 form {
-    background-color: white;
-    padding: 1.25rem;
-    border-radius: 0.5rem;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
 }
 
-/* Input and Select (Full width, padding, and rounded corners) */
+/* Input and Select Styling */
 input, select {
     width: 100%;
     padding: 0.625rem;
-    margin: 1rem 0;
+    margin: 0.5rem 0;
     border-radius: 0.3125rem;
     border: 1px solid #ccc;
     font-size: 1rem;
+}
+
+input[type="number"] {
+    text-align: center;
 }
 
 /* Button Styling */
@@ -56,7 +60,6 @@ button {
     cursor: pointer;
     font-size: 1rem;
     transition: background-color 0.3s ease;
-    margin-top: 1rem;
 }
 
 button:hover {
@@ -67,102 +70,93 @@ button:hover {
 table {
     width: 100%;
     margin-top: 1.25rem;
-    border-collapse: collapse; /* Ensures clean borders without doubling */
-    table-layout: fixed; /* Ensures all columns have equal width */
+    border-collapse: collapse;
     overflow-x: auto;
+    word-wrap: break-word; /* Memastikan teks panjang terpecah */
+    table-layout: auto;
 }
 
 /* Table Header Styling */
 th, td {
-    padding: 1rem; /* Consistent padding */
+    padding: 0.8rem; /* Consistent padding */
     text-align: center; /* Center align text */
     border: 1px solid #ddd; /* Light border for a cleaner look */
-    font-size: 1rem; /* Font size consistency */
+    font-size: 0.95rem; /* Font size consistency */
+    word-wrap: break-word; /* Text wrapping */
 }
 
-/* Table Header Styling */
+/* Header Row */
 th {
     background-color: #007bff;
     color: white;
     font-weight: bold;
 }
 
-/* Table Row Styling */
+/* Alternating Row Colors */
 tr:nth-child(even) {
-    background-color: #f9f9f9; /* Light background for alternating rows */
+    background-color: #f9f9f9;
 }
 
 tr:hover {
-    background-color: #f1f1f1; /* Highlight row on hover */
+    background-color: #f1f1f1;
 }
 
-/* Input Fields inside Table (Number fields in cells) */
-input[type="number"] {
-    width: 100%;
-    padding: 0.5rem;
-    text-align: center;
-    border-radius: 0.3125rem;
-    border: 1px solid #ccc;
-}
-
+/* Input Fields inside Table */
 input[type="number"]:focus {
     border-color: #007bff;
     outline: none;
 }
 
-/* Set custom column widths for Tanggal, ID, Departemen */
+/* Set Specific Column Widths */
 th:nth-child(1), td:nth-child(1) { /* Tanggal Penginputan */
-    width: 20%; /* Make Tanggal column wider */
+    width: 15%;
 }
 
 th:nth-child(2), td:nth-child(2) { /* ID Karyawan */
-    width: 15%; /* Make ID column wider */
+    width: 12%;
 }
 
 th:nth-child(4), td:nth-child(4) { /* Departemen */
-    width: 20%; /* Make Departemen column wider */
+    width: 15%;
 }
 
-/* Set column widths for the rest of the columns */
-th, td {
-    width: 10%; /* Default width for the remaining columns */
-}
-
-/* Responsive Design for Smaller Screens */
+/* Responsive Table for Small Screens */
 @media (max-width: 768px) {
     .container {
-        width: 95%; /* Adjust container width on mobile */
+        width: 95%;
     }
 
     form {
-        padding: 1rem; /* Reduce padding on mobile */
+        padding: 1rem;
     }
 
     input, select, button {
-        font-size: 0.9rem; /* Slightly smaller text */
+        font-size: 0.9rem;
     }
 
     table {
-        font-size: 0.9rem; /* Smaller table font */
-    }
-
-    table {
-        overflow-x: auto; /* Make table scrollable horizontally */
+        font-size: 0.85rem;
         display: block;
+        overflow-x: auto; /* Scroll horizontally on small screens */
+        white-space: nowrap; /* Prevent table from wrapping */
+    }
+
+    th, td {
+        padding: 0.5rem;
     }
 }
 
 @media (max-width: 480px) {
     header {
-        font-size: 1.2rem; /* Slightly smaller header */
+        font-size: 1.2rem;
     }
 
     button {
-        font-size: 0.9rem; /* Smaller button text */
+        font-size: 0.85rem;
         padding: 0.5rem 1rem;
     }
 
     table {
-        font-size: 0.8rem; /* Even smaller table font */
+        font-size: 0.8rem;
     }
 }
