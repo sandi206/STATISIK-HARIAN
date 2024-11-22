@@ -1,6 +1,8 @@
 /* General Reset */
 * {
     box-sizing: border-box; /* Ensure padding and border are included in width/height */
+    margin: 0;
+    padding: 0;
 }
 
 /* Body Styling */
@@ -20,83 +22,85 @@ header {
     padding: 1.25rem;
 }
 
-/* Container (Ensures content is centered and responsive) */
+/* Container Styling */
 .container {
     width: 80%;
     margin: auto;
     padding: 2rem;
     max-width: 1200px;
-}
-
-/* Form Styling */
-form {
     background-color: white;
-    padding: 1.25rem;
-    border-radius: 0.5rem;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-/* Input and Select (Full width, padding, and rounded corners) */
-input, select {
-    width: 100%;
-    padding: 0.625rem;
-    margin: 1rem 0;
-    border-radius: 0.3125rem;
-    border: 1px solid #ccc;
-    font-size: 1rem;
-}
-
-/* Button Styling */
-button {
-    background-color: #28a745;
-    color: white;
-    padding: 0.625rem 1.25rem;
-    border: none;
-    border-radius: 0.3125rem;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.3s ease;
-    margin-top: 1rem;
-}
-
-button:hover {
-    background-color: #218838;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Table Styling */
 table {
     width: 100%;
     margin-top: 1.25rem;
-    border-collapse: collapse; /* Ensures clean borders without doubling */
-    table-layout: fixed; /* Ensures all columns have equal width */
-    overflow-x: auto;
+    border-collapse: collapse; /* Prevent double borders */
+    table-layout: fixed; /* Ensure consistent column widths */
+    overflow-x: auto; /* Allow horizontal scrolling */
+    word-wrap: break-word; /* Prevent content overflow */
 }
 
 /* Table Header Styling */
 th, td {
-    padding: 1rem; /* Consistent padding */
-    text-align: center; /* Center align text */
-    border: 1px solid #ddd; /* Light border for a cleaner look */
-    font-size: 1rem; /* Font size consistency */
+    padding: 0.75rem; /* Consistent padding */
+    text-align: center; /* Align text in center */
+    border: 1px solid #ddd; /* Light border for clarity */
+    font-size: 1rem; /* Consistent font size */
 }
 
-/* Table Header Styling */
+/* Table Header Row */
 th {
     background-color: #007bff;
     color: white;
     font-weight: bold;
 }
 
-/* Table Row Styling */
+/* Alternating Row Colors */
 tr:nth-child(even) {
-    background-color: #f9f9f9; /* Light background for alternating rows */
+    background-color: #f9f9f9;
 }
 
 tr:hover {
-    background-color: #f1f1f1; /* Highlight row on hover */
+    background-color: #f1f1f1;
 }
 
-/* Input Fields inside Table (Number fields in cells) */
+/* Kolom Lebar Khusus */
+th:nth-child(1), td:nth-child(1) { /* Tanggal */
+    width: 15%;
+}
+
+th:nth-child(2), td:nth-child(2) { /* ID Karyawan */
+    width: 10%;
+}
+
+th:nth-child(3), td:nth-child(3) { /* Nama */
+    width: 15%;
+}
+
+th:nth-child(4), td:nth-child(4) { /* Departemen */
+    width: 15%;
+}
+
+th:nth-child(5), td:nth-child(5) { /* Shift */
+    width: 15%; /* Lebar untuk Shift */
+}
+
+th:nth-child(6), td:nth-child(6) { /* Jam Masuk */
+    width: 10%;
+}
+
+th:nth-child(7), td:nth-child(7) { /* Jam Keluar */
+    width: 10%;
+}
+
+th:nth-child(8), td:nth-child(8) { /* Absensi/Keterangan */
+    width: 15%; /* Lebar untuk Keterangan */
+}
+
+/* Input Fields inside Table */
 input[type="number"] {
     width: 100%;
     padding: 0.5rem;
@@ -110,59 +114,32 @@ input[type="number"]:focus {
     outline: none;
 }
 
-/* Set custom column widths for Tanggal, ID, Departemen */
-th:nth-child(1), td:nth-child(1) { /* Tanggal Penginputan */
-    width: 20%; /* Make Tanggal column wider */
-}
-
-th:nth-child(2), td:nth-child(2) { /* ID Karyawan */
-    width: 15%; /* Make ID column wider */
-}
-
-th:nth-child(4), td:nth-child(4) { /* Departemen */
-    width: 20%; /* Make Departemen column wider */
-}
-
-/* Set column widths for the rest of the columns */
-th, td {
-    width: 10%; /* Default width for the remaining columns */
-}
-
 /* Responsive Design for Smaller Screens */
 @media (max-width: 768px) {
     .container {
-        width: 95%; /* Adjust container width on mobile */
-    }
-
-    form {
-        padding: 1rem; /* Reduce padding on mobile */
-    }
-
-    input, select, button {
-        font-size: 0.9rem; /* Slightly smaller text */
+        width: 95%; /* Slightly wider for smaller screens */
     }
 
     table {
-        font-size: 0.9rem; /* Smaller table font */
+        font-size: 0.9rem; /* Reduce font size */
+        display: block; /* Enable horizontal scrolling */
     }
 
-    table {
-        overflow-x: auto; /* Make table scrollable horizontally */
-        display: block;
+    th, td {
+        padding: 0.6rem;
     }
 }
 
 @media (max-width: 480px) {
     header {
-        font-size: 1.2rem; /* Slightly smaller header */
-    }
-
-    button {
-        font-size: 0.9rem; /* Smaller button text */
-        padding: 0.5rem 1rem;
+        font-size: 1.2rem; /* Smaller header font */
     }
 
     table {
-        font-size: 0.8rem; /* Even smaller table font */
+        font-size: 0.8rem; /* Further reduce font size for mobile */
     }
-} PERBARUI DISINI DENGAN TABEL YANG RAPI TANPA ADA YANG POTONG
+
+    th, td {
+        padding: 0.5rem;
+    }
+}
